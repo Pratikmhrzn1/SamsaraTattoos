@@ -1,14 +1,50 @@
 import express from "express";
+
 import dotenv from "dotenv";
+
 import connectDB from "./config/database.js";
+
+import userRoutes from "./routes/userRoutes.js";
+
 import log from "./utils/logger.js";
-const app = express();
+import { notFound, errorHandler } from "./middleware/errorHandler.js";
+
+import swaggerUi from "swagger-ui-express";
+import swaggerSpec from "./config/swagger.js";
+
+/**
+ * Enabling access of variables in .env file
+ */
 dotenv.config();
-const PORT = process.env.PORT;
-app.get("/", (req, res) => {
-  res.send("Hello World");
-});
+
+/**
+ * Connection to database i.e MongoDB
+ */
 connectDB();
+
+const app = express();
+app.use(express.json());
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+/**
+ * Routes to users
+ */
+app.use("/api/users", userRoutes);
+
+/**
+ * Error handlers for the api
+ */
+app.use(notFound);
+app.use(errorHandler);
+
+
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  log("success",`Backend app listening on port: http://localhost:${PORT}`);
+  log("info", `Server running on port ${PORT}`);
 });
+
+/**
+ * Log to provide the link of swagger docs
+ */
+
+log("info", `Swagger server is running in http://localhost:${PORT}/api-docs`);
