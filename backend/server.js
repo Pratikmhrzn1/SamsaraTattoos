@@ -24,6 +24,7 @@ connectDB();
 
 const app = express();
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 /**
@@ -37,14 +38,11 @@ app.use("/api/users", userRoutes);
 app.use(notFound);
 app.use(errorHandler);
 
-
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   log("info", `Server running on port ${PORT}`);
+  /**
+   * Log to provide the link of swagger docs
+   */
+  log("info", `Swagger server is running in http://localhost:${PORT}/api-docs`);
 });
-
-/**
- * Log to provide the link of swagger docs
- */
-
-log("info", `Swagger server is running in http://localhost:${PORT}/api-docs`);
