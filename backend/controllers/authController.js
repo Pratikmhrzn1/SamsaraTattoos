@@ -20,7 +20,7 @@ export const registerUser = async (req, res, next) => {
       phoneNumber,
     });
     const token = generateToken(user._id);
-    log("success", "User registered");
+    log("success", "User registered successfully!");
     res.status(201).json({
       success: true,
       token,

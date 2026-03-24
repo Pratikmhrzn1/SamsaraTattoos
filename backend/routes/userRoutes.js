@@ -132,6 +132,18 @@ router.get("/:id", getUserById);
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/AuthResponse'
+ *       404:
+ *         description: Resource not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ *       500:
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
  */
 
 router.post("/register", registerUser);
@@ -152,26 +164,22 @@ router.post("/register", registerUser);
  *     responses:
  *       200:
  *         description: Login successful
+ *       404:
+ *         description: Resource not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ *       500:
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
  */
 router.post("/login", loginUser);
 
 
-/**
- * @swagger
- * /api/users/login:
- *   post:
- *     summary: Login user
- *     tags: [Auth]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             $ref: '#/components/schemas/LoginRequest'
- *     responses:
- *       200:
- *         description: Login successful
- */
 router.get("/profile", protect, (req, res) => {
   res.json(req.user);
 });

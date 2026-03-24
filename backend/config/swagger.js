@@ -19,8 +19,9 @@ const options = {
     },
     servers: [
       {
-        url: "http://localhost:5000",
+        url: "http://localhost:5000", description:"Development"
       },
+      { url: "https://samsaratattoos.com", description: "Production" },
     ],
 
     components: {
@@ -55,7 +56,7 @@ const options = {
             },
             phoneNumber: {
               type: "string",
-              minLength:8,
+              pattern: "^[0-9]{10}$",
               example: "9812345678",
             },
             createdAt: {
@@ -89,6 +90,7 @@ const options = {
             },
             phoneNumber: {
               type: "string",
+              pattern: "^[0-9]{10}$",
               example: "9812345678",
             },
           },
@@ -120,7 +122,7 @@ const options = {
             },
             token: {
               type: "string",
-              example: "jwt.token.here",
+              example: "Insert your jwt token here",
             },
             user: {
               $ref: "#/components/schemas/User",
