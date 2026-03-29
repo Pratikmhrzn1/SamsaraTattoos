@@ -32,7 +32,7 @@ const bookingSchema = new mongoose.Schema(
       trim: true,
     },
     referenceImage: {
-      type: String, // local file path
+      type: String, 
       default: null,
     },
     status: {
@@ -41,7 +41,7 @@ const bookingSchema = new mongoose.Schema(
       default: "pending",
     },
     notes: {
-      type: String, // admin notes
+      type: String, 
       default: "",
     },
   },

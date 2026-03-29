@@ -1,3 +1,16 @@
+
+
+import express from "express";
+import {
+  createUser,
+  getUsers,
+  getUserById,updateUserRole
+} from "../controllers/userController.js";
+import { registerUser,loginUser } from "../controllers/authController.js";
+import { protect } from "../middleware/auth.js";
+import { authorize } from "../middleware/authorize.js";
+const router = express.Router();
+
 /**
  * @swagger
  * /api/users:
@@ -25,18 +38,6 @@
  *       201:
  *         description: User created successfully
  */
-
-import express from "express";
-import {
-  createUser,
-  getUsers,
-  getUserById,
-} from "../controllers/userController.js";
-import { registerUser,loginUser } from "../controllers/authController.js";
-import { protect } from "../middleware/auth.js";
-
-const router = express.Router();
-
 router.post("/", createUser);
 
 /**
@@ -112,6 +113,68 @@ router.post("/", createUser);
 router.get("/", getUsers);
 router.get("/:id", getUserById);
 
+/**
+ * @swagger
+ * /api/users/{id}/role:
+ *   patch:
+ *     summary: Update user role (superadmin only)
+ *     tags: [Users]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: MongoDB ObjectId of the user
+ *         example: 64a7f9c2e4b0d5a1f8c3e2b1
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required: [role]
+ *             properties:
+ *               role:
+ *                 type: string
+ *                 enum: [user, admin, superadmin]
+ *                 example: admin
+ *     responses:
+ *       200:
+ *         description: Role updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: User role updated to admin
+ *                 user:
+ *                   $ref: '#/components/schemas/User'
+ *       400:
+ *         description: Invalid role
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ *       403:
+ *         description: Forbidden - superadmin only
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ *       404:
+ *         description: User not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ */
+router.patch("/:id/role",protect,authorize("superadmin"),updateUserRole);
 
 /**
  * @swagger
@@ -180,8 +243,8 @@ router.post("/register", registerUser);
 router.post("/login", loginUser);
 
 
-router.get("/profile", protect, (req, res) => {
-  res.json(req.user);
-});
+// router.get("/profile", protect, (req, res) => {
+//   res.json(req.user);
+// });
 
 export default router;

@@ -65,6 +65,45 @@ const options = {
             },
           },
         },
+        BookingRequest: {
+          type: "object",
+          properties: {
+            _id: {
+              type: "string",
+              example: "64a7f9c2e4b0d345fssdfsdf",
+            },
+            firstName: {
+              type: "string",
+              example: "Pratik",
+            },
+            lastName: {
+              type: "string",
+              example: "Maharjan",
+            },
+            email: {
+              type: "string",
+              format: "email",
+              example: "pratik@gmail.com",
+            },
+            phoneNumber: {
+              type: "string",
+              pattern: "^[0-9]{10}$",
+              example: "9812345678",
+            },
+            date:{
+              type:"string",
+              example:"2026-01-01"
+            },
+            tattooIdea:{
+              type:"string",
+              example:"Full body tattoo"
+            },
+            createdAt: {
+              type: "string",
+              example: "2025-03-24T10:00:00.000Z",
+            },
+          },
+        },
 
         RegisterRequest: {
           type: "object",
@@ -85,7 +124,7 @@ const options = {
             },
             password: {
               type: "string",
-              minLength:6,
+              minLength:8,
               example: "Pratik1234",
             },
             phoneNumber: {
@@ -107,7 +146,7 @@ const options = {
             },
             password: {
               type: "string",
-              minLength:6,
+              minLength:8,
               example: "Pratik1234",
             },
           },
@@ -122,7 +161,7 @@ const options = {
             },
             token: {
               type: "string",
-              example: "Insert your jwt token here",
+              example: "Your jwt token will be shown here",
             },
             user: {
               $ref: "#/components/schemas/User",
@@ -160,6 +199,10 @@ const options = {
         name: "Users",
         description: "User management",
       },
+      {
+        name:"Bookings",
+        description:"Booking Management"
+      }
     ],
   },
 

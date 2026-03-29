@@ -1,6 +1,5 @@
 import Booking from "../models/Booking.js"
 import log from "../utils/logger.js"
-
 /**
  * Public
  * Submit booking request
@@ -123,7 +122,7 @@ export const updateBookingStatus = async (req,res,next) => {
  */
 export const deleteBooking = async (req,res,next) => {
     try{
-        const booking = await Booking.getBookingByIdAndDelete(req.params.id);
+        const booking = await Booking.findByIdAndDelete(req.params.id);
         if(!booking){
             const error = new Error("Booking not found!");
             error.statusCode=404;

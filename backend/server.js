@@ -6,6 +6,7 @@ import connectDB from "./config/database.js";
 
 import userRoutes from "./routes/userRoutes.js";
 import bookingRoutes from './routes/bookingRoutes.js';
+import galleryRoutes from './routes/galleryRoutes.js';
 import log from "./utils/logger.js";
 import { notFound, errorHandler } from "./middleware/errorHandler.js";
 
@@ -28,10 +29,17 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 /**
- * Routes to users
+ * Route to users
  */
 app.use("/api/users", userRoutes);
+/**
+ * Route to bookings
+ */
 app.use('/api/bookings',bookingRoutes);
+/**
+ * Route to gallery
+ */
+app.use("/api/gallery", galleryRoutes);
 /**
  * Error handlers for the api
  */
