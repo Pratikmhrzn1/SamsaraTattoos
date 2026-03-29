@@ -5,7 +5,7 @@ import dotenv from "dotenv";
 import connectDB from "./config/database.js";
 
 import userRoutes from "./routes/userRoutes.js";
-
+import bookingRoutes from './routes/bookingRoutes.js';
 import log from "./utils/logger.js";
 import { notFound, errorHandler } from "./middleware/errorHandler.js";
 
@@ -31,7 +31,7 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
  * Routes to users
  */
 app.use("/api/users", userRoutes);
-
+app.use('/api/bookings',bookingRoutes);
 /**
  * Error handlers for the api
  */

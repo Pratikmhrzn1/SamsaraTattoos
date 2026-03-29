@@ -15,9 +15,8 @@ const userSchema = new mongoose.Schema({
   phoneNumber:{
     type:String,
     required:[true,'Phone Number is required'],
-    unique:true,
     minlength:10,
-    match: [/^[0-9]{10,15}$/, "Please enter a valid phone number"],
+    // match: [/^[0-9]{10,15}$/, "Please enter a valid phone number"],
   },
   email: {
     type: String,
@@ -30,11 +29,11 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: [true, 'Password is required'],
-    minlength: [6, 'Password must be at least 6 characters'],
+    minlength: [8, 'Password must be at least 6 characters'],
   },
   role: {
     type: String,
-    enum: ['user', 'admin'],
+    enum: ['user', 'admin', 'superadmin'],
     default: 'user',
   },
 

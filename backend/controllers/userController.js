@@ -2,6 +2,9 @@ import User from "../models/User.js";
 export const createUser = async (req, res, next) => {
   try {
     const { firstName, email, password, phoneNumber, lastName } = req.body;
+    /**
+     * Checks if the required fields are filled
+     */
     if (!firstName || !email || !password || !phoneNumber || !lastName) {
       const error = new Error("First name, last name, phone number, email and password are required");
       error.statusCode = 400;

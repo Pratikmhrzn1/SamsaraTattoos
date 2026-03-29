@@ -41,7 +41,6 @@ export const loginUser = async (req, res, next) => {
       throw error;
     }
 
-    
     const user = await User.findOne({ email });
 
     if (!user) {
@@ -50,7 +49,6 @@ export const loginUser = async (req, res, next) => {
       throw error;
     }
 
-    
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
@@ -59,7 +57,6 @@ export const loginUser = async (req, res, next) => {
       throw error;
     }
 
-    
     const token = generateToken(user._id);
 
     res.status(200).json({
@@ -71,6 +68,3 @@ export const loginUser = async (req, res, next) => {
     next(error);
   }
 };
-
-
-
