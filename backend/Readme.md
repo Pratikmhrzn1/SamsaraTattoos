@@ -315,6 +315,73 @@ Document deleted from MongoDB
 }
 ```
 
+
+---
+ 
+## Stats Flow
+ 
+### Get Dashboard Stats (Admin / Superadmin)
+ 
+```
+Admin sends GET request with JWT token
+        ↓
+protect + authorize("admin", "superadmin") middleware runs
+        ↓
+Promise.all runs all DB queries simultaneously
+        ↓
+Returns counts + 5 most recent bookings
+```
+ 
+**Endpoint:** `GET /api/stats`
+ 
+**Access:** Admin, Superadmin only
+ 
+**Success Response** `200`:
+```json
+{
+  "success": true,
+  "stats": {
+    "bookings": {
+      "total": 24,
+      "pending": 8,
+      "confirmed": 14,
+      "rejected": 2
+    },
+    "gallery": {
+      "total": 40
+    },
+    "users": {
+      "total": 15
+    }
+  },
+  "recentBookings": [
+    {
+      "_id": "...",
+      "firstName": "Pratik",
+      "email": "pratik@gmail.com",
+      "status": "pending",
+      "date": "2025-05-10T00:00:00.000Z",
+      "createdAt": "2025-03-24T10:00:00.000Z"
+    }
+  ]
+}
+```
+ 
+**What each stat means:**
+ 
+| Field | Description |
+|---|---|
+| `bookings.total` | All booking requests ever submitted |
+| `bookings.pending` | Bookings awaiting admin review |
+| `bookings.confirmed` | Bookings approved by admin |
+| `bookings.rejected` | Bookings declined by admin |
+| `gallery.total` | Total images uploaded to the gallery |
+| `users.total` | Total registered users |
+| `recentBookings` | Latest 5 bookings for quick admin overview |
+ 
+---
+
+
 ---
 
 ## Error Responses
