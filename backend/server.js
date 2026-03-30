@@ -7,6 +7,7 @@ import connectDB from "./config/database.js";
 import userRoutes from "./routes/userRoutes.js";
 import bookingRoutes from './routes/bookingRoutes.js';
 import galleryRoutes from './routes/galleryRoutes.js';
+import statsRoutes from './routes/statsRoutes.js';
 import log from "./utils/logger.js";
 import { notFound, errorHandler } from "./middleware/errorHandler.js";
 
@@ -40,6 +41,10 @@ app.use('/api/bookings',bookingRoutes);
  * Route to gallery
  */
 app.use("/api/gallery", galleryRoutes);
+/**
+ * Route to statistics
+ */
+app.use("/api/stats",statsRoutes);
 /**
  * Error handlers for the api
  */

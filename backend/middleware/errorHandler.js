@@ -13,7 +13,9 @@ Global error handler middleware
 
 export const errorHandler = (err, req, res, next) => {
   console.error("ERROR:", err.message);
-
+  if (res.headersSent) {
+    return next(err);
+  }
   /**
    * Default Error Values
    */

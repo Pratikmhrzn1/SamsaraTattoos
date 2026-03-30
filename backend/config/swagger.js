@@ -202,7 +202,7 @@ const options = {
       {
         name:"Bookings",
         description:"Booking Management"
-      }
+      },
     ],
   },
 
