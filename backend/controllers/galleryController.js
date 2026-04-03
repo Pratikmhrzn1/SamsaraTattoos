@@ -13,28 +13,28 @@ const _dirname = path.dirname(_filename);
  * Get all galleries
  * Route: GET /api/gallery
  */
-export const getAllImages = async (req,res,next) => {
-    try{
+export const getAllImages = async (req, res, next) => {
+    try {
         const filter = {};
-        if(req.params.style){
-            filter.style = req.params.style;
-            /**
-             * If a url has a query like : /api/gallery?style=realism
-             * then filtering of image with style=realism takes place
-             * and it is sorted in such an order that newest image added in the gallery will be at the top
-             */
-            const images = await galleryImage.find(filter).sort({createdAt:-1});
-            res.status(200).json({
-                success:true,
-                count:images.length,
-                images
-            })
+        
+        if (req.query.style) {
+            filter.style = req.query.style;
         }
-    }catch(error){
+
+        // This ensures that if there is NO style, it simply fetches ALL images.
+        const images = await galleryImage.find(filter).sort({ createdAt: -1 });
+
+        // 3. Always send a response so the request doesn't hang
+        res.status(200).json({
+            success: true,
+            count: images.length,
+            images
+        });
+
+    } catch (error) {
         next(error);
     }
-}
-
+};
 
 /**
  * Upload image in gallery

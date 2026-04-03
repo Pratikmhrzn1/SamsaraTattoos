@@ -5,7 +5,7 @@ import {
   deleteImage,
 } from "../controllers/galleryController.js";
 import { protect } from "../middleware/auth.js";
-import { authorize } from "../middleware/authorize.js";
+import { authorize, ROLE } from "../middleware/authorize.js";
 import upload from "../middleware/upload.js";
 
 const router = express.Router();
@@ -29,7 +29,7 @@ const router = express.Router();
  *         name: style
  *         schema:
  *           type: string
- *           enum: [realism, tribal, traditional, watercolor, geometric, blackwork, japanese, other]
+ *           enum: [full sleeve tattoo,custom tattoo,paintings,achievements,others]
  *         description: Filter by tattoo style
  *     responses:
  *       200:
@@ -71,7 +71,7 @@ router.get("/", getAllImages);
  *             schema:
  *               $ref: '#/components/schemas/ErrorResponse'
  */
-router.post("/", protect, authorize("admin","superadmin"), upload.single("image"), uploadImage);
+router.post("/", protect, authorize(ROLE.ADMIN,ROLE.SUPERADMIN), upload.single("image"), uploadImage);
 
 /**
  * @swagger
@@ -95,6 +95,6 @@ router.post("/", protect, authorize("admin","superadmin"), upload.single("image"
  *             schema:
  *               $ref: '#/components/schemas/ErrorResponse'
  */
-router.delete("/:id", protect, authorize("admin","superadmin"), deleteImage);
+router.delete("/:id", protect, authorize(ROLE.ADMIN,ROLE.SUPERADMIN), deleteImage);
 
 export default router;

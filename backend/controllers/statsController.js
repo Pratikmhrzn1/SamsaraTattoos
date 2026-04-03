@@ -42,6 +42,7 @@ export const getStats = async (req,res,next) => {
                 users:{
                     total:totalUsers
                 },
+                totalGalleryImages,
                 recentBookings
             }
         });

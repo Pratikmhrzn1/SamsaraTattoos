@@ -7,7 +7,7 @@ import {
   deleteBooking,
 } from "../controllers/bookingController.js";
 import { protect } from "../middleware/auth.js";
-import { authorize } from "../middleware/authorize.js";
+import { authorize, ROLE } from "../middleware/authorize.js";
 import upload from "../middleware/upload.js";
 
 const router = express.Router();
@@ -97,7 +97,7 @@ router.post("/", upload.single("referenceImage"), createBooking);
  *             schema:
  *               $ref: '#/components/schemas/ErrorResponse'
  */
-router.get("/", protect, authorize("admin","superadmin"), getAllBookings);
+router.get("/", protect, authorize(ROLE.ADMIN,ROLE.SUPERADMIN), getAllBookings);
 
 /**
  * @swagger
@@ -122,7 +122,7 @@ router.get("/", protect, authorize("admin","superadmin"), getAllBookings);
  *             schema:
  *               $ref: '#/components/schemas/ErrorResponse'
  */
-router.get("/:id", protect, authorize("admin","superadmin"), getBookingById);
+router.get("/:id", protect, authorize(ROLE.ADMIN,ROLE.SUPERADMIN), getBookingById);
 
 /**
  * @swagger
@@ -164,7 +164,7 @@ router.get("/:id", protect, authorize("admin","superadmin"), getBookingById);
  *             schema:
  *               $ref: '#/components/schemas/ErrorResponse'
  */
-router.patch("/:id/status", protect, authorize("admin","superadmin"), updateBookingStatus);
+router.patch("/:id/status", protect, authorize(ROLE.ADMIN,ROLE.SUPERADMIN), updateBookingStatus);
 
 /**
  * @swagger
@@ -188,6 +188,6 @@ router.patch("/:id/status", protect, authorize("admin","superadmin"), updateBook
  *             schema:
  *               $ref: '#/components/schemas/ErrorResponse'
  */
-router.delete("/:id", protect, authorize("admin","superadmin"), deleteBooking);
+router.delete("/:id", protect, authorize(ROLE.ADMIN,ROLE.SUPERADMIN), deleteBooking);
 
 export default router;

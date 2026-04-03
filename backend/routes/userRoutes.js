@@ -8,7 +8,10 @@ import {
 } from "../controllers/userController.js";
 import { registerUser,loginUser } from "../controllers/authController.js";
 import { protect } from "../middleware/auth.js";
-import { authorize } from "../middleware/authorize.js";
+import { authorize, ROLE } from "../middleware/authorize.js";
+import { validate } from "../middleware/validate.js";
+import { roleUpdateSchema, userLoginSchema, userRegisterSchema } from "../validators/userValidators.js";
+
 const router = express.Router();
 
 /**
@@ -38,7 +41,7 @@ const router = express.Router();
  *       201:
  *         description: User created successfully
  */
-router.post("/", createUser);
+router.post("/", validate(userRegisterSchema),createUser);
 
 /**
  * @swagger
@@ -110,8 +113,8 @@ router.post("/", createUser);
  *             schema:
  *               $ref: '#/components/schemas/ErrorResponse'
  */
-router.get("/", getUsers);
-router.get("/:id", getUserById);
+router.get("/", protect,authorize(ROLE.ADMIN,ROLE.SUPERADMIN),getUsers);
+router.get("/:id",protect,authorize(ROLE.ADMIN,ROLE.SUPERADMIN), getUserById);
 
 /**
  * @swagger
@@ -137,8 +140,8 @@ router.get("/:id", getUserById);
  *             properties:
  *               role:
  *                 type: string
- *                 enum: [user, admin, superadmin]
- *                 example: admin
+ *                 enum: [1,2,3]
+ *                 example: 1 for user,2 for admin and 3 for superadmin
  *     responses:
  *       200:
  *         description: Role updated successfully
@@ -174,7 +177,7 @@ router.get("/:id", getUserById);
  *             schema:
  *               $ref: '#/components/schemas/ErrorResponse'
  */
-router.patch("/:id/role",protect,authorize("superadmin"),updateUserRole);
+router.patch("/:id/role",protect,authorize(ROLE.SUPERADMIN),validate(roleUpdateSchema),updateUserRole);
 
 /**
  * @swagger
@@ -209,7 +212,7 @@ router.patch("/:id/role",protect,authorize("superadmin"),updateUserRole);
  *               $ref: '#/components/schemas/ErrorResponse'
  */
 
-router.post("/register", registerUser);
+router.post("/register",validate(userRegisterSchema), registerUser);
 
 
 /**
@@ -240,7 +243,7 @@ router.post("/register", registerUser);
  *             schema:
  *               $ref: '#/components/schemas/ErrorResponse'
  */
-router.post("/login", loginUser);
+router.post("/login",validate(userLoginSchema), loginUser);
 
 
 // router.get("/profile", protect, (req, res) => {

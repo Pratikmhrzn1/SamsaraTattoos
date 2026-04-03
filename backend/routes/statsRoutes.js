@@ -1,7 +1,7 @@
 import express, { Router } from "express"
 import { getStats } from "../controllers/statsController.js"
 import {protect} from "../middleware/auth.js";
-import {authorize} from "../middleware/authorize.js"
+import {authorize, ROLE} from "../middleware/authorize.js"
 
 const router = Router();
 
@@ -64,5 +64,5 @@ const router = Router();
  *             schema:
  *               $ref: '#/components/schemas/ErrorResponse'
  */
-router.get("/",protect,authorize("admin","superadmin"),getStats);
+router.get("/",protect,authorize(ROLE.ADMIN,ROLE.SUPERADMIN),getStats);
 export default router;
